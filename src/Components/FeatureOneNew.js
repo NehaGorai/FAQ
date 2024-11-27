@@ -4,7 +4,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { HiMinus } from "react-icons/hi";
 
 function FeatureOne() {
-    const [showIndex, setShowItems] = useState({});   //here it is on object Lookuup//better performanse//arrry will take time if there is 500+ data present.. but using object will take less time to retrive the keys..
+    const [showIndex, setShowItems] = useState({});   //here it is on object Lookuup//better performanse//arrry will take time with filter method if there is 500+ data present.. but using object will take less time to retrive the keys..
     const checking = (index) => {
         const copy = { ...showIndex };
         copy[index] = !copy[index];
@@ -21,14 +21,11 @@ function FeatureOne() {
                             {showIndex[index] ? (<HiMinus size={24} />) : (<AiOutlinePlus size={24} />)}
                         </div>
                     </div>
-                    <div className={`overflow-hidden transition-all duration-100 ${showIndex[index] ? "max-h-36 overflow-y-scroll" : "h-0"}`}>
-                        <p className="text-gray-700">{item.details}</p>
-                    </div>
-                    {/* {
-                        showIndex[index] ? <div className={`overflow-hidden transition-all duration-100 max-h-36 overflow-y`}>
+                    {
+                        showIndex[index] ? <div className={`overflow-hidden transition-all duration-100 max-h-36 overflow-y-scroll`}>
                             <p className="text-gray-700">{item.details}</p>
                         </div> : null
-                    } */}
+                    }
 
                 </div>
             ))}
