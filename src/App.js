@@ -1,10 +1,15 @@
 import React from 'react'
-import FeatureOne from './Components/FeatureOne'
+// import FeatureOnePreious from './Components/FeatureOnePreious'
+import FeatureOneNew from './Components/FeatureOneNew'
+
 
 function App() {
   return (
     <>
-      <FeatureOne />
+      {/* <FeatureOnePreious /> */}
+      <FeatureOneNew />
+
+
     </>
   )
 }
