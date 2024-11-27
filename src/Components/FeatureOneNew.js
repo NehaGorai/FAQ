@@ -6,9 +6,9 @@ import { HiMinus } from "react-icons/hi";
 function FeatureOne() {
     const [showIndex, setShowItems] = useState({});   //here it is on object Lookuup//better performanse//arrry will take time with filter method if there is 500+ data present.. but using object will take less time to retrive the keys..
     const checking = (index) => {
-        const copy = { ...showIndex };
-        copy[index] = !copy[index];
-        setShowItems({ ...copy });
+        const copy = { ...showIndex }; //here which i click still showIndex is now copy={} ->copy is s empty object
+        copy[index] = !copy[index]; // copy[0]=!copy[0]  -> copy pbj get assign a key-> key:0 , value:true(initial 0 has assign undefined ->!undefined become true)
+        setShowItems({ ...copy }); //  setShowItems({ 0: true })
     };
     console.log(showIndex)
     return (
