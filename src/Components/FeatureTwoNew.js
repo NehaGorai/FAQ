@@ -9,7 +9,7 @@ function FeatureTwo() {
 
     return (
         <div className="container mx-auto border mt-8 rounded-3xl shadow-md">
-            <h1 className="text-3xl font-medium pl-6  mt-6 ">{data.title} </h1>
+            <h1 className="text-3xl font-medium pl-6  mt-6 ">{data.title} {lang}</h1>
             <div className="flex border-b-[1px]  mb-8">
                 {tabs.map((item) => (
                     <button
