@@ -1,31 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import namings from '../data/featureTwo.json';
-const lang = Object.keys(namings)
+const langList = Object.keys(namings) 
 
 function FeatureTwo() {
-    const [selectedLang, setSelectedLang] = useState(lang[0]);
-    const data = namings[selectedLang];
-    const tabs = Object.keys(data.cars).map((key) => ({ name: key, id: key })); 
-    const [selectedCategory, setSelectedCategory] = useState(tabs[0].id); 
-
+    const [selectedLang, setSelectedLang] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [data, setData] = useState({});
+    const [tabs, setTabs] = useState([]);
+    useEffect(() => {
+        const lang = langList[0];
+        setSelectedLang(lang);
+        const dataLocal = namings[lang];
+        setData({ ...dataLocal });
+        const tabsLocal = Object.keys(dataLocal.cars).map((key) => ({ name: key, id: key }));
+        setTabs([...tabsLocal]);
+        setSelectedCategory(tabsLocal[0].id)
+    }, []);
+    const onSelectLang = (e) => {
+        const lang = e.target.value
+        setSelectedLang(lang);
+        const dataLocal = namings[lang];
+        setData({ ...dataLocal });
+        const tabsLocal = Object.keys(dataLocal.cars).map((key) => ({ name: key, id: key }));
+        setTabs([...tabsLocal]);
+        setSelectedCategory(tabsLocal[0].id) //if this we set on state we dont need to use && for data.cars && data.cars below
+    }
     return (
         <div className="container mx-auto border mt-8 rounded-3xl shadow-md">
             <div className='flex justify-between'>
                 <h1 className="text-3xl font-medium pl-6  mt-6 ">  {data.title} - {selectedLang}</h1>
                 <div className="p-4">
                     <label htmlFor="languageselect" className="mr-4 font-medium text-gray-700">
-                        Language:
+                        Select Language:
                     </label>
                     <select
                         id="languageselect"
                         value={selectedLang}
-                        onChange={(e) => {
-                            setSelectedLang(e.target.value);
-                            setSelectedCategory(Object.keys(namings[e.target.value].cars)[0]);
-                        }}
+                        onChange={onSelectLang}
                         className="px-4 py-2  border border-orange-600 focus:outline-none focus:ring-0  rounded-md text-gray-700"
                     >
-                        {lang.map((litem) => (
+                        {langList.map((litem) => (
                             <option key={litem} value={litem}>
                                 {litem}
                             </option>
@@ -47,9 +61,9 @@ function FeatureTwo() {
                     </button>
                 ))}
             </div>
-
+            {/* data.cars && data.car this check can be removed if we set it into state */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-6 gap-4">
-                {data.cars[selectedCategory] ? <>
+                {data.cars && data.cars[selectedCategory] ? <> 
                     {data.cars[selectedCategory].map((item) => (
                         <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden w-72">
                             <img src={item.image} alt={item.name} className="w-full h-48 object-cover" />
