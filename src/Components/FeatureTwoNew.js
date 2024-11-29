@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import namings from '../data/featureTwo.json';
 const lang = "HI"
 const data = namings[lang]
-// const tabs = [{ name: "Popular", id: "famous" }, { name: "Upcoming", id: "upcoming" }, { name: "Latest", id: "latest" }, { name: "HOnda", id: "Honda" }];
+// const tabs = [{ name: "Popular", id: "famous" }, { name: "Upcoming", id: "upcoming" }, { name: "Latest", id: "latest" }, { name: "Honda", id: "Honda" }];
 const tabs = Object.keys(data.cars).map((key) => { return { name: key, id: key } })
 function FeatureTwo() {
     const [selectedCategory, setSelectedCategory] = useState(tabs[0].id);
