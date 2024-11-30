@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-// import namings from '../data/featureTwo.json'; this data getting from api
+import React, { useEffect, useState, Suspense } from 'react';
+// import namings from '../data/featureTwo.json'; //this data we getting from api
 import axios from 'axios';
 // const langList = Object.keys(namings)  //no need fetches from axios
 
@@ -16,15 +16,15 @@ function FeatureTwo() {
         axios.get("http://localhost:4400/cardata")
             .then((response) => {
                 const namings = response.data;
-                console.log(namings) //debuging____________________________
+                // console.log(namings) //debuging____________________________
                 setNamings(namings); // Saveing the data in state
                 const langList = Object.keys(namings)
-                console.log(langList); //debuging____________________________
+                console.log("langList --> ", langList); //debuging____________________________
                 setLangList(langList)
                 const lang = langList[0];
                 setSelectedLang(lang);
                 const dataLocal = namings[lang];
-                console.log("Data Local:", dataLocal); //debuging____________________________
+                console.log(dataLocal); //debuging____________________________
                 setData({ ...dataLocal });
                 const tabsLocal = Object.keys(dataLocal.cars).map((key) => ({ name: key, id: key }));
                 setTabs([...tabsLocal]);
@@ -53,26 +53,32 @@ function FeatureTwo() {
     }
     return (
         <div className="container mx-auto border mt-8 rounded-3xl shadow-md">
-            <div className='flex justify-between'>
-                <h1 className="text-3xl font-medium pl-6  mt-6 ">  {data.title} - {selectedLang}</h1>
-                <div className="p-4">
-                    <label htmlFor="languageselect" className="mr-4 font-medium text-gray-700">
-                        Select Language:
-                    </label>
-                    <select
-                        id="languageselect"
-                        value={selectedLang}
-                        onChange={onSelectLang}
-                        className="px-4 py-2  border border-orange-600 focus:outline-none focus:ring-0  rounded-md text-gray-700"
-                    >
-                        {langList.map((litem) => (
-                            <option key={litem} value={litem}>
-                                {litem}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-            </div>
+            {
+                selectedLang ? (<><div className='flex justify-between'>
+                    <h1 className="text-3xl font-medium pl-6  mt-6 ">  {data.title} - {selectedLang}</h1>
+                    <div className="p-4">
+                        <label htmlFor="languageselect" className="mr-4 font-medium text-gray-700">
+                            Select Language:
+                        </label>
+                        <select
+                            id="languageselect"
+                            value={selectedLang}
+                            onChange={onSelectLang}
+                            className="px-4 py-2  border border-orange-600 focus:outline-none focus:ring-0  rounded-md text-gray-700"
+                        >
+                            {langList.map((litem) => (
+                                <option key={litem} value={litem}>
+                                    {litem}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div></>) : (
+                    <Suspense fallback={<div className="text-gray-500 font-medium pl-6 mt-6">Loading Data...</div>}>
+                        <div className="text-gray-500 font-medium pl-6 mt-6">Loading Data...</div>
+                    </Suspense>
+                )
+            }
             <div className="flex border-b-[1px]  mb-8">
                 {tabs.map((item) => (
                     <button
