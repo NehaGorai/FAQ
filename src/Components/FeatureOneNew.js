@@ -4,19 +4,19 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { HiMinus } from "react-icons/hi";
 
 function FeatureOne() {
-    const [showIndex, setShowItems] = useState({});   //here it is on object Lookuup//better performanse//arrry will take time with filter method if there is 500+ data present.. but using object will take less time to retrive the keys..
+    const [showIndex, setShowItems] = useState({});
     const checking = (index) => {
-        const copy = { ...showIndex }; //here which i click still showIndex is now copy={} ->copy is s empty object
-        copy[index] = !copy[index]; // copy[0]=!copy[0]  -> copy pbj get assign a key-> key:0 , value:true(initial 0 has assign undefined ->!undefined become true)
-        setShowItems({ ...copy }); //  setShowItems({ 0: true })
+        const copy = { ...showIndex };
+        copy[index] = !copy[index];
+        setShowItems({ ...copy });
     };
-    console.log(showIndex)
     return (
         <>
+            <div className="container mx-auto">
             {data.map((item, index) => (
-                <div key={index} className="border p-[10px] m-4 w-1/2  bg-white">
+                <div key={index} className=" border-b-2 p-[10px] m-2  bg-white">
                     <div className="flex justify-between items-center">
-                        <h1 className="font-bold text-xl mb-2">{item.name}</h1>
+                        <h1 className="font-bold text-lg mb-2">{item.name}</h1>
                         <div className="cursor-pointer" onClick={() => checking(index)}>
                             {showIndex[index] ? (<HiMinus size={24} />) : (<AiOutlinePlus size={24} />)}
                         </div>
@@ -29,6 +29,7 @@ function FeatureOne() {
 
                 </div>
             ))}
+            </div>
         </>
     );
 }
