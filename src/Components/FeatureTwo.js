@@ -1,20 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import namings from '../data/featureTwo.json';
-const langList = Object.keys(namings) 
+// import namings from '../data/featureTwo.json'; this data getting from api
+import axios from 'axios';
+// const langList = Object.keys(namings)  //no need fetches from axios
 
 function FeatureTwo() {
     const [selectedLang, setSelectedLang] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [data, setData] = useState({});
     const [tabs, setTabs] = useState([]);
+    const [namings, setNamings] = useState({});
+    const [langList, setLangList] = useState([]);
+
+
     useEffect(() => {
-        const lang = langList[0];
-        setSelectedLang(lang);
-        const dataLocal = namings[lang];
-        setData({ ...dataLocal });
-        const tabsLocal = Object.keys(dataLocal.cars).map((key) => ({ name: key, id: key }));
-        setTabs([...tabsLocal]);
-        setSelectedCategory(tabsLocal[0].id)
+        axios.get("http://localhost:4400/cardata")
+            .then((response) => {
+                const namings = response.data;
+                console.log(namings) //debuging____________________________
+                setNamings(namings); // Saveing the data in state
+                const langList = Object.keys(namings)
+                console.log(langList); //debuging____________________________
+                setLangList(langList)
+                const lang = langList[0];
+                setSelectedLang(lang);
+                const dataLocal = namings[lang];
+                console.log("Data Local:", dataLocal); //debuging____________________________
+                setData({ ...dataLocal });
+                const tabsLocal = Object.keys(dataLocal.cars).map((key) => ({ name: key, id: key }));
+                setTabs([...tabsLocal]);
+                setSelectedCategory(tabsLocal[0].id)
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+
+        // const lang = langList[0];
+        // setSelectedLang(lang);
+        // const dataLocal = namings[lang];
+        // setData({ ...dataLocal });
+        // const tabsLocal = Object.keys(dataLocal.cars).map((key) => ({ name: key, id: key }));
+        // setTabs([...tabsLocal]);
+        // setSelectedCategory(tabsLocal[0].id)
     }, []);
     const onSelectLang = (e) => {
         const lang = e.target.value
