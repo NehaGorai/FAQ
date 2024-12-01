@@ -6,24 +6,25 @@ import { HiMinus } from "react-icons/hi";
 
 function FeatureOne() {
     const [showIndex, setShowItems] = useState({});
-    const [data, SetData] = useState([])
-    const checking = (index) => {
-        const copy = { ...showIndex };
-        copy[index] = !copy[index];
-        setShowItems({ ...copy });
-    };
+    const [data, setData] = useState([]);
+
     useEffect(() => {
         axios.get("http://localhost:4400/faqdata")
             .then((response) => {
                 const datas = response.data
                 console.log(datas)
-                SetData(datas)
+                setData(datas)
             })
             .catch((e) => {
                 console.log(e.message)
-            })
+            });
 
-    }, [])
+    }, []);
+    const checking = (index) => {
+        const copy = { ...showIndex };
+        copy[index] = !copy[index];
+        setShowItems({ ...copy });
+    };
     return (
         <>
             <div className="container mx-auto">
