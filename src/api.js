@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const carData = require('./data/car.json');
-// const faqData = require('./data/faq_data.json')
-const faqData = require('./data/faq.json')
+const faqData = require('./data/faq_data.json')
+// const faqData = require('./data/faq.json')
 const PORT = 4400;
 
 
