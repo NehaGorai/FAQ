@@ -5,7 +5,6 @@ function ColorPicker() {
     const [green, setGreen] = useState(0);
     const [blue, setBlue] = useState(0);
     const [rgb, setRgb] = useState("");
-    // const rgbColor = `rgb(${red}, ${green}, ${blue})`;
 
     useEffect(() => {
         const rgbColor = `rgb(${red}, ${green}, ${blue})`;
