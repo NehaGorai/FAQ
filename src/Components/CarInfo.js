@@ -95,7 +95,7 @@ function FeatureTwo() {
             </div>
             {/* data.cars && data.car this check can be removed if we set it into state */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-6 gap-4">
-                {data.cars && data.cars[selectedCategory] ? <> 
+                {data.cars && data.cars[selectedCategory] ? <>
                     {data.cars[selectedCategory].map((item) => (
                         <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden w-72">
                             <img src={item.image} alt={item.name} className="w-full h-48 object-cover" />
