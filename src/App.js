@@ -1,19 +1,19 @@
 import React from 'react'
 
 // import FeatureOnePreious from './Components/FeatureOnePreious'
-// import FeatureOneNew from './Components/FeatureOneNew'
+// import Faq from './Components/Faq'
 // import FeatureTwo from './Components/FeatureTwo' 
 // import Weather from './Components/Weather'
-import ColorPicker from './Components/ColorPicker'
+import ColorPickerTwo from './Components/ColorPickerTwo'
 
 function App() {
   return (
     <>
       {/* <FeatureOnePreious /> */}
-      {/* <FeatureOneNew /> */}
+      {/* <Faq /> */}
       {/* <FeatureTwo />   */}
       {/* <Weather /> */}
-      <ColorPicker />
+      <ColorPickerTwo />
 
     </>
   )
