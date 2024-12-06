@@ -5,7 +5,10 @@ import React from 'react'
 // import CarInfo from './Components/CarInfo' 
 // import Weather from './Components/Weather'
 // import ColorPickerTwo from './Components/ColorPickerTwo'
+// import LoginForm from './Components/LoginForm'
 import BgFg from './Components/BgFg'
+// import Play from './Components/Play'
+
 
 function App() {
   return (
@@ -15,7 +18,9 @@ function App() {
       {/* <CarInfo />   */}
       {/* <Weather /> */}
       {/* <ColorPickerTwo /> */}
+      {/* <LoginForm /> */}
       <BgFg />
+      {/* <Play /> */}
 
     </>
   )

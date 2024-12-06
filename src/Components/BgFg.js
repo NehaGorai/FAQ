@@ -1,114 +1,96 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import rgbHex from 'rgb-hex';
+const listing = {
+    tabs: [{ id: "background", name: "Background" }, { id: "text", name: "Text" }],
+    activeTab: "background",
+    title: "Color Controls",
+    controls: [
+        { label: "Red (0-255)", id: "red" },
+        { label: "Green (0-255)", id: "green" },
+        { label: "Blue (0-255)", id: "blue" },
+    ]
+};
 
 function ColorPicker() {
-    const [colors, setColors] = useState({
-        red: 0,
-        green: 0,
-        blue: 0,
+    const [activeTab, setActiveTab] = useState(listing.activeTab);
+    const [state, setState] = useState({
+        background: { red: 0, green: 0, blue: 0, hex: "#000000", rgb: "rgb(0,0,0)" },
+        text: { red: 0, green: 0, blue: 0, hex: "#000000", rgb: "rgb(0,0,0)" }
     });
-    const [rgb, setRgb] = useState("");
-    const [hex, setHex] = useState("#000000");
-    const [activeTab, setActiveTab] = useState("background");
-    const [textColor, setTextColor] = useState("#ffffff");
 
-    useEffect(() => {
-        const rgbColor = `rgb(${colors.red}, ${colors.green}, ${colors.blue})`;
-        const hexColor = rgbHex(colors.red, colors.green, colors.blue).toString().toUpperCase();
-        setRgb(rgbColor);
-        setHex(`#${hexColor}`);
 
-        if (activeTab === "background") {
-            document.body.style.backgroundColor = rgbColor;
-        } else if (activeTab === "text") {
-            setTextColor(`#${hexColor}`);
-        }
-    }, [colors, activeTab]);
 
-    const handleColorChange = (e) => {
+    const onColorChange = (e) => {
         const { name, value } = e.target;
-        setColors({ ...colors, [name]: Number(value) });
+        const localState = { ...state };
+        localState[activeTab] = {
+            ...localState[activeTab],
+            [name]: +value
+        };
+        const rgbColor = `rgb(${localState[activeTab].red}, ${localState[activeTab].green}, ${localState[activeTab].blue})`;
+        const hexColor = rgbHex(localState[activeTab].red, localState[activeTab].green, localState[activeTab].blue).toUpperCase();
+        localState[activeTab].rgb = rgbColor;
+        localState[activeTab].hex = hexColor;
+
+        console.log(name, value, localState);
+        setState({ ...localState });
     };
-
-    // const handleTabSwitch = (tabName) => {
-    //     setActiveTab(tabName);
-    // };
-
-    const handleTabSwitch = (tabName) => {
-        setActiveTab(tabName);
-    };
-
-    const listing = {
-        title: "Color Controls",
-        displayVal: "Value:",
-        colorSupport: ["RGB Color", "Hex Color"],
-        colorSlides: [
-            { label: "Red (0-255)", key: "red" },
-            { label: "Green (0-255)", key: "green" },
-            { label: "Blue (0-255)", key: "blue" },
-        ],
-    };
-
-    // Define your tabs here
-    const tabs = [
-        { label: "Background", key: "background" },
-        { label: "Foreground", key: "text" },
-    ];
 
     return (
         <div className="flex h-screen">
-            {/* ____________Left Column___________________________________ */}
+            {/* Left_________________ */}
             <div
-                style={{
-                    backgroundColor: activeTab === "background" ? rgb : "#ffffff",
-                    color: activeTab === "text" ? textColor : "#000000",
-                }}
-                className="flex-1 flex flex-col items-center justify-center"
+                style={{ backgroundColor: state.background.rgb, color: state.text.rgb }}
+                className="flex-1 flex flex-col items-center justify-center text-5xl font-bold"
             >
-                <h1 className="text-4xl font-bold" style={{ color: textColor }}>
-                    Lorem Ipsum.....
-                </h1>
+                Lorem Ipsum...
             </div>
 
-            {/* _______________Right Column__________________________________ */}
+            {/* Right___________________________ */}
             <div className="w-1/5 bg-gray-100 p-4">
-                {/*___________ Tabs___________  */}
-                <div className="flex space-x-4 mb-6 justify-center">
-                    {tabs.map((item) => (
+                <h2 className="text-xl font-semibold mb-4 text-center">{listing.title}</h2>
+                {/* Tabs________________________- */}
+                <div className="flex justify-around mb-4">
+                    {listing.tabs.map((item, index) => (
                         <button
-                            key={item.key}
-                            onClick={() => handleTabSwitch(item.key)}
-                            className={`px-4 py-2 ${activeTab === item.key ? "border-blue-500 border-b-2" : ""
+                            key={item.id}
+                            onClick={() => setActiveTab(item.id)}
+                            className={`px-4 py-2 text-sm font-semibold ${activeTab === item.id
+                                ? " border-b-2 border-blue-500"
+                                : ""
                                 }`}
                         >
-                            {item.label}
+                            {item.name}
                         </button>
                     ))}
                 </div>
-
-                {/* *___________ Color Controls *___________  */}
-                <h2 className="text-xl font-semibold mb-6 text-center">{listing.title}</h2>
-                <div className="flex flex-col gap-2">
-                    {listing.colorSlides.map((item) => (
-                        <div key={item.key}>
-                            <label className="block text-sm font-semibold mb-2">
-                                {item.label}
-                            </label>
-                            <input
-                                name={item.key}
-                                type="range"
-                                min="0"
-                                max="255"
-                                value={colors[item.key]}
-                                onChange={handleColorChange}
-                                className="w-full"
-                            />
-                            <span className="text-sm">{listing.displayVal} {colors[item.key]}</span>
-                        </div>
-                    ))}
+                <div>
                     <div>
-                        <p className="text-sm">{listing.colorSupport[0]}: <span className="font-bold">{rgb}</span></p>
-                        <p className="text-sm">{listing.colorSupport[1]}: <span className="font-bold">{hex}</span></p>
+                        {listing.controls.map((item) => (
+                            <div key={item.id} className="mb-4">
+                                <label className="block text-sm font-semibold mb-2">
+                                    {item.label}
+                                </label>
+                                <input
+                                    name={item.id}
+                                    type="range"
+                                    min="0"
+                                    max="255"
+                                    value={state[activeTab][item.id]}
+                                    onChange={onColorChange}
+                                    className="w-full"
+                                />
+                                <span className="text-sm">
+                                    Value: {state[activeTab][item.id]}
+                                </span>
+                            </div>
+                        ))}
+
+                        {listing.tabs.map((item) => <>
+                            <p>{item.name}</p>
+                            <p className="text-sm">RGB: <span className="font-bold">{state[item.id].rgb}</span></p>
+                            <p className="text-sm">Hex: <span className="font-bold">{state[item.id].hex}</span></p>
+                        </>)}
                     </div>
                 </div>
             </div>
@@ -117,3 +99,4 @@ function ColorPicker() {
 }
 
 export default ColorPicker;
+
